@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -82,7 +83,6 @@ public class OAuthService {
     }
 
     //발급받은 토큰으로 회원 정보 가져오기
-    //이메일로 가입하지 않을 수도 있고, 유저마다 정보 제공 동의 여부가 다르기 때문에 HashMap타입으로 받음
     public Map<String, Object> getKakaoUserInfo (String access_token) throws IOException {
         Map<String, Object> userInfo = new HashMap<>();
         String host = "https://kapi.kakao.com/v2/user/me";
@@ -113,6 +113,10 @@ public class OAuthService {
             JsonElement element = parser.parse(result);
 
             String id = element.getAsJsonObject().get("id").getAsString();
+            String nickname = element.getAsJsonObject().get("properties")
+                            .getAsJsonObject().get("nickname").getAsString();
+            String profile_image = element.getAsJsonObject().get("properties")
+                            .getAsJsonObject().get("profile_image").getAsString();
 
             boolean hasEmail = element.getAsJsonObject().get("kakao_account")
                             .getAsJsonObject().get("has_email").getAsBoolean();
@@ -126,6 +130,8 @@ public class OAuthService {
             }
 
             userInfo.put("id", id);
+            userInfo.put("nickname", nickname);
+            userInfo.put("profile_image", profile_image);
             userInfo.put("email", email);
 
             br.close();
@@ -172,6 +178,37 @@ public class OAuthService {
         }
 
         return result;
+    }
+
+    //카카오 로그아웃
+    public void kakaoLogout(String access_token) {
+        String host = "https://kapi.kakao.com/v1/user/logout";
+
+        try {
+            URL url = new URL(host);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", "Bearer " + access_token);
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode: " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String result = "";
+            String line = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+
+            System.out.println(result);
+            br.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
