@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -117,9 +118,6 @@ public class OAuthService {
             String profile_image = element.getAsJsonObject().get("properties")
                             .getAsJsonObject().get("profile_image").getAsString();
 
-            System.out.println("nickname: " + nickname);
-            System.out.println("profile_image: " + profile_image);
-
             boolean hasEmail = element.getAsJsonObject().get("kakao_account")
                             .getAsJsonObject().get("has_email").getAsBoolean();
             boolean emailAgreement = element.getAsJsonObject().get("kakao_account")
@@ -180,6 +178,37 @@ public class OAuthService {
         }
 
         return result;
+    }
+
+    //카카오 로그아웃
+    public void kakaoLogout(String access_token) {
+        String host = "https://kapi.kakao.com/v1/user/logout";
+
+        try {
+            URL url = new URL(host);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", "Bearer " + access_token);
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode: " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String result = "";
+            String line = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+
+            System.out.println(result);
+            br.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
