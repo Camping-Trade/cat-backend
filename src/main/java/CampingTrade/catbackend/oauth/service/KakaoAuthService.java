@@ -1,0 +1,48 @@
+package CampingTrade.catbackend.oauth.service;
+
+import CampingTrade.catbackend.api.entity.member.Member;
+import CampingTrade.catbackend.api.repository.member.MemberQuerydslRepository;
+import CampingTrade.catbackend.api.repository.member.MemberRepository;
+import CampingTrade.catbackend.oauth.client.ClientKakao;
+import CampingTrade.catbackend.oauth.payload.AuthRequest;
+import CampingTrade.catbackend.oauth.payload.AuthResponse;
+import CampingTrade.catbackend.oauth.token.AuthToken;
+import CampingTrade.catbackend.oauth.token.AuthTokenProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class KakaoAuthService {
+
+    private final ClientKakao clientKakao;
+    private final MemberQuerydslRepository memberQuerydslRepository;
+    private final AuthTokenProvider authTokenProvider;
+    private final MemberRepository memberRepository;
+
+    @Transactional
+    public AuthResponse login(AuthRequest authRequest) {
+        // userData 담기
+        Member kakaoMember = clientKakao.getUserData(authRequest.getAccessToken());
+        Long id = kakaoMember.getId();
+        Member member = memberQuerydslRepository.findById(id);
+
+        // 신규 토큰 생성
+        AuthToken appToken = authTokenProvider.createUserAppToken(id.toString());
+
+        // 기존에 없는 사용자라면 새로 등록
+        if (member == null) {
+            memberRepository.save(kakaoMember);
+            return AuthResponse.builder()
+                    .appToken(appToken.getToken())
+                    .isNewMember(Boolean.TRUE)
+                    .build();
+        }
+
+        // /auth/kakao의 응답의 body로 AccessToken(여기선 appToken)을 보내주기 위해 builder 사용
+        return AuthResponse.builder()
+                .appToken(appToken.getToken())
+                .build();
+    }
+}
