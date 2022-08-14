@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.api.entity.member;
+package CampingTrade.catbackend.member.entity;
 
 import CampingTrade.catbackend.oauth.entity.RoleType;
 import lombok.AllArgsConstructor;

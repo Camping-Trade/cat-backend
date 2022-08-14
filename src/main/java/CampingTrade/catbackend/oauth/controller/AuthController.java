@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.api.controller.auth;
+package CampingTrade.catbackend.oauth.controller;
 
 import CampingTrade.catbackend.common.payload.ApiResponse;
 import CampingTrade.catbackend.oauth.payload.AuthRequest;
@@ -7,7 +7,7 @@ import CampingTrade.catbackend.oauth.service.AuthService;
 import CampingTrade.catbackend.oauth.service.KakaoAuthService;
 import CampingTrade.catbackend.oauth.token.AuthToken;
 import CampingTrade.catbackend.oauth.token.AuthTokenProvider;
-import CampingTrade.catbackend.util.JwtHeaderUtil;
+import CampingTrade.catbackend.oauth.util.JwtHeaderUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,5 @@
-package CampingTrade.catbackend.config.security;
+package CampingTrade.catbackend.common.config;
+
 
 import CampingTrade.catbackend.oauth.filter.JwtAuthenticationFilter;
 import CampingTrade.catbackend.oauth.token.AuthTokenProvider;

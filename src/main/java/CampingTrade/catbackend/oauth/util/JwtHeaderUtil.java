@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.util;
+package CampingTrade.catbackend.oauth.util;
 
 import javax.servlet.http.HttpServletRequest;
 

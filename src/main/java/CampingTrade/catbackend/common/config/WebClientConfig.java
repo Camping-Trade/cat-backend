@@ -1,6 +1,7 @@
-package CampingTrade.catbackend.config;
+package CampingTrade.catbackend.common.config;
 
-import CampingTrade.catbackend.util.ThrowingConsumer;
+
+import CampingTrade.catbackend.oauth.util.ThrowingConsumer;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -69,7 +70,7 @@ public class WebClientConfig {
                 .filter(ExchangeFilterFunction.ofResponseProcessor(
                         clientResponse -> {
                             clientResponse.headers().asHttpHeaders().forEach((name, values)
-                        -> values.forEach(value -> log.debug("{} : {}", name, value)));
+                                    -> values.forEach(value -> log.debug("{} : {}", name, value)));
                             return Mono.just(clientResponse);
                         }
                 ))

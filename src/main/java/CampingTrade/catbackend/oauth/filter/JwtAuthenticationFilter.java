@@ -2,7 +2,7 @@ package CampingTrade.catbackend.oauth.filter;
 
 import CampingTrade.catbackend.oauth.token.AuthToken;
 import CampingTrade.catbackend.oauth.token.AuthTokenProvider;
-import CampingTrade.catbackend.util.JwtHeaderUtil;
+import CampingTrade.catbackend.oauth.util.JwtHeaderUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

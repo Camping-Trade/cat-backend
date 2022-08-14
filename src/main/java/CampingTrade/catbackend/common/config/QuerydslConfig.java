@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.config;
+package CampingTrade.catbackend.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
 package CampingTrade.catbackend.oauth.service;
 
-import CampingTrade.catbackend.api.entity.member.Member;
-import CampingTrade.catbackend.api.repository.member.MemberQuerydslRepository;
-import CampingTrade.catbackend.api.repository.member.MemberRepository;
+import CampingTrade.catbackend.member.entity.Member;
+import CampingTrade.catbackend.member.repository.MemberQuerydslRepository;
+import CampingTrade.catbackend.member.repository.MemberRepository;
 import CampingTrade.catbackend.oauth.client.ClientKakao;
 import CampingTrade.catbackend.oauth.payload.AuthRequest;
 import CampingTrade.catbackend.oauth.payload.AuthResponse;
