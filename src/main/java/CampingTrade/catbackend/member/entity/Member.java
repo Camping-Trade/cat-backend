@@ -1,12 +1,15 @@
 package CampingTrade.catbackend.member.entity;
 
 import CampingTrade.catbackend.oauth.entity.RoleType;
+import CampingTrade.catbackend.reservation.entity.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -28,10 +31,15 @@ public class Member {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Column
+    private int point;
+    
+    @OneToMany(mappedBy = "member")
+    private List<Reservation> reservationList = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoleType roleType;
-
 
 
 
