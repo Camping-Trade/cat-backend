@@ -4,7 +4,6 @@ import CampingTrade.catbackend.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.mariadb.jdbc.type.Point;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package CampingTrade.catbackend.member.entity;
 
-import CampingTrade.catbackend.oauth.entity.RoleType;
+import CampingTrade.catbackend.oauth.enumerate.RoleType;
 import CampingTrade.catbackend.reservation.entity.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

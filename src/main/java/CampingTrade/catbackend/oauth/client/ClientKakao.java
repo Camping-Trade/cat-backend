@@ -1,7 +1,7 @@
 package CampingTrade.catbackend.oauth.client;
 
 import CampingTrade.catbackend.member.entity.Member;
-import CampingTrade.catbackend.oauth.entity.RoleType;
+import CampingTrade.catbackend.oauth.enumerate.RoleType;
 import CampingTrade.catbackend.oauth.exception.TokenValidFailedException;
 import CampingTrade.catbackend.oauth.payload.KakaoUserResponse;
 import lombok.RequiredArgsConstructor;

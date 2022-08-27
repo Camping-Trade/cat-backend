@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.oauth.entity;
+package CampingTrade.catbackend.oauth.enumerate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

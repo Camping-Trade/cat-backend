@@ -11,7 +11,11 @@ public class ApiResponse<T> {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
-    public static <T> ResponseEntity<T> forbidden (T body) {
+    public static <T>ResponseEntity<T> created (T body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(body);
+    }
+
+    public static <T>ResponseEntity<T> forbidden (T body) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
     }
 }

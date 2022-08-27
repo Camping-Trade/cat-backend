@@ -1,6 +1,6 @@
 package CampingTrade.catbackend.oauth.token;
 
-import CampingTrade.catbackend.oauth.entity.RoleType;
+import CampingTrade.catbackend.oauth.enumerate.RoleType;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package CampingTrade.catbackend.oauth.token;
 
-import CampingTrade.catbackend.oauth.entity.RoleType;
+import CampingTrade.catbackend.oauth.enumerate.RoleType;
 import CampingTrade.catbackend.oauth.exception.TokenValidFailedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
