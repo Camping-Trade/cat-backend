@@ -18,7 +18,7 @@ public class PostIndexController {
      * 화면 연결 Controller
      */
 
-    private final PostService postService;
+    //private final PostService postService;
 
     /* 글 상세보기 */
     @GetMapping("/post/details/{id}")

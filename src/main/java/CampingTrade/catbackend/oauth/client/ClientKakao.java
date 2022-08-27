@@ -30,11 +30,12 @@ public class ClientKakao {
                 .block();
 
         return Member.builder()
-                .id(kakaoUserResponse.getId())
+                .kakaoId(String.valueOf(kakaoUserResponse.getId()))
                 .nickname(kakaoUserResponse.getProperties().getNickname())
                 .email(kakaoUserResponse.getKakaoAccount().getEmail())
                 .roleType(RoleType.USER)
                 .profileImageUrl(kakaoUserResponse.getProperties().getProfileImage())
+                .thumbnailImageUrl(kakaoUserResponse.getProperties().getThumbnailImage())
                 .build();
     }
 }

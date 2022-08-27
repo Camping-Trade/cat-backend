@@ -23,7 +23,7 @@ public class Review {
     private Long reviewId;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String review;
+    private String content;
 
     @Column
     private int rating;

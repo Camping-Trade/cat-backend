@@ -1,7 +1,6 @@
 package CampingTrade.catbackend.member.entity;
 
 import CampingTrade.catbackend.oauth.enumerate.RoleType;
-import CampingTrade.catbackend.reservation.entity.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +19,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
     @Column(length = 30, nullable = false)
@@ -31,11 +31,17 @@ public class Member {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Column(name = "thumbnail_image_url")
+    private String thumbnailImageUrl;
+
+    @Column(name = "kakao_id", nullable = false)
+    private String kakaoId;
+
     @Column
     private int point;
     
-    @OneToMany(mappedBy = "member")
-    private List<Reservation> reservationList = new ArrayList<>();
+    //@OneToMany(mappedBy = "member")
+    //private List<Reservation> reservationList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

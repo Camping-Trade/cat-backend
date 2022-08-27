@@ -25,6 +25,7 @@ public class KakaoUserResponse {
     public static class Properties {
         private String nickname;
         private String profileImage;
+        private String thumbnailImage;
     }
 
     @ToString

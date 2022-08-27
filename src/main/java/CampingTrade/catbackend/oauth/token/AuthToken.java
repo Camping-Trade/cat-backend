@@ -19,16 +19,16 @@ public class AuthToken {
 
     private static final String AUTHORITIES_KEY = "role";
 
-    AuthToken(String socialId, RoleType roleType, Date expiry, Key key) {
+    AuthToken(String kakaoId, RoleType roleType, Date expiry, Key key) {
         String role = roleType.toString(); // USER, ADMIN
         this.key = key;
-        this.token = createAuthToken(socialId, role, expiry);
+        this.token = createAuthToken(kakaoId, role, expiry);
     }
 
     // AccessToken(여기선 appToken) 생성
-    private String createAuthToken(String memberId, String role, Date expiry) {
+    private String createAuthToken(String kakaoId, String role, Date expiry) {
         return Jwts.builder()
-                .setSubject(memberId)
+                .setSubject(kakaoId)
                 .claim(AUTHORITIES_KEY, role)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(expiry)

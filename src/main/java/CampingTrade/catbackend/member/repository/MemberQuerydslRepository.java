@@ -4,6 +4,7 @@ import CampingTrade.catbackend.member.entity.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import static CampingTrade.catbackend.member.entity.QMember.member;
 
@@ -12,11 +13,11 @@ import static CampingTrade.catbackend.member.entity.QMember.member;
 public class MemberQuerydslRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    public Member findById(Long id) {
+    @Transactional(readOnly = true)
+    public Member findByKakaoId(String kakaoId) {
         return jpaQueryFactory
                 .selectFrom(member)
-                .where(member.id.eq(id))
+                .where(member.kakaoId.eq(kakaoId))
                 .fetchOne();
     }
 

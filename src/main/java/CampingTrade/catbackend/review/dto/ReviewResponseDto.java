@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 public class ReviewResponseDto {
 
     private Long reviewId;
-    private String review;
+    private String content;
     private int rating;
 
     private String createdDate = LocalDateTime.now().format(
@@ -32,7 +32,7 @@ public class ReviewResponseDto {
     /* Entity -> Dto */
     public ReviewResponseDto (Review review) {
         this.reviewId = review.getReviewId();
-        this.review = review.getReview();
+        this.content = review.getContent();
         this.rating = review.getRating();
         this.createdDate = review.getCreatedDate();
         this.modifiedate = review.getModifiedDate();

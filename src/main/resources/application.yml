@@ -1,13 +1,16 @@
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    username: sa
-    url: jdbc:h2:tcp://localhost/~/testdb
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: admin
+    password: catewha2022
+    url: jdbc:mariadb://cat-database.ccmo8onyohgn.ap-northeast-2.rds.amazonaws.com:3306/cat_database
   jpa:
-    show-sql: 'true'
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
-        ddl-auto: create-drop
+        format_sql: true
+        show_sql: true
 
 logging:
   level:
@@ -15,6 +18,9 @@ logging:
       springframework:
         nodeValue: debug
         web: debug
+      hibernate:
+        type.descriptor.sql: trace
+        SQL: DEBUG
 
 app:
   auth:

@@ -46,7 +46,7 @@ public class AuthService {
         }
 
         try {
-            Member member = memberQuerydslRepository.findById(Long.parseLong(claims.getSubject()));
+            Member member = memberQuerydslRepository.findByKakaoId(claims.getSubject());
             return member.getId();
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "사용자가 존재하지 않습니다.");
