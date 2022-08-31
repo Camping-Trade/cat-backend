@@ -26,6 +26,7 @@ public class KakaoAuthService {
 
         // userData 담기
         Member kakaoMember = clientKakao.getUserData(authRequest.getAccessToken());
+
         String kakaoId = kakaoMember.getKakaoId();
         Member member = memberQuerydslRepository.findByKakaoId(kakaoId);
 

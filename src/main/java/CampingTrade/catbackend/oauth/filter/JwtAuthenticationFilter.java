@@ -30,13 +30,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) { // JWT 토큰 존재하는지 확인
             String tokenStr = JwtHeaderUtil.getAccessToken(request); // Bearer로 시작하는 값에서 Bearer를 제거한 accessToken(여기선 appToken) 반환
+
             AuthToken token = tokenProvider.convertAuthToken(tokenStr); // String to AuthToken
 
             if (token.validate()) { // token이 유효한지 확인
                 Authentication authentication = tokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication); // token에 존재하는 authentication 정보 삽입
             }
-
+            
             filterChain.doFilter(request, response);
         }
     }
