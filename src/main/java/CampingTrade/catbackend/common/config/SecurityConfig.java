@@ -45,7 +45,7 @@ public class SecurityConfig {
     // swagger-ui.html의 경우, 인증된 사용자가 아니어도 접근 가능하도록 설정
     // (dev 환경에 대해서만 swagger 설정을 했기 때문에 인증된 사용자가 아니어도 됨)
     @Bean
-    public WebSecurityCustomizer configure() {
+    public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().mvcMatchers(
                 "/v2/api-docs",
                 "/configuration/**",

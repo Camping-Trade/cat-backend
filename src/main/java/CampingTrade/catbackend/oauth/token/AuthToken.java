@@ -48,6 +48,7 @@ public class AuthToken {
                     .parseClaimsJws(token)
                     .getBody(); // token의 Body가 다음의 exception들로 인해 유효하지 않으면 각각의 로그를 콘솔에 출력
 
+
         } catch (SecurityException e) {
             log.info("Invalid JWT signature.");
         } catch (MalformedJwtException e) {

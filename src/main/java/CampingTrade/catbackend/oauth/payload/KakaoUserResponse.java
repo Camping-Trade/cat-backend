@@ -32,7 +32,6 @@ public class KakaoUserResponse {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class KakaoAccount {
         private String email;
     }
