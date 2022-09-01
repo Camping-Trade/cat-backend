@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) { // JWT 토큰 존재하는지 확인
             String tokenStr = JwtHeaderUtil.getAccessToken(request); // Bearer로 시작하는 값에서 Bearer를 제거한 accessToken(여기선 appToken) 반환
 
-            AuthToken token = tokenProvider.convertAuthToken(tokenStr); // String to AuthToken
+            AuthToken token = tokenProvider.createUserAppToken(tokenStr); //**
 
             if (token.validate()) { // token이 유효한지 확인
                 Authentication authentication = tokenProvider.getAuthentication(token);

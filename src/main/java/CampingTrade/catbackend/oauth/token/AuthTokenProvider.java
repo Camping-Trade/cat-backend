@@ -48,7 +48,7 @@ public class AuthTokenProvider {
 
     // String to AuthToken
     public AuthToken convertAuthToken(String token) {
-        return createToken(token, RoleType.USER, expiry);
+        return new AuthToken(token, key);
     }
 
     // String to Date
