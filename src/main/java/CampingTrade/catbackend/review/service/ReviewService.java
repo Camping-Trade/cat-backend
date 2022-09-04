@@ -1,9 +1,11 @@
 package CampingTrade.catbackend.review.service;
 
+import CampingTrade.catbackend.camping.dto.CampingReviewResponse;
 import CampingTrade.catbackend.member.entity.Member;
 import CampingTrade.catbackend.member.repository.MemberRepository;
 import CampingTrade.catbackend.oauth.service.AuthService;
 import CampingTrade.catbackend.review.dto.ReviewRequestDto;
+import CampingTrade.catbackend.review.dto.ReviewResponseDto;
 import CampingTrade.catbackend.review.entity.Attachment;
 import CampingTrade.catbackend.review.entity.Review;
 import CampingTrade.catbackend.review.repository.ReviewQuerydslRepository;
@@ -17,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,10 +34,25 @@ public class ReviewService {
 
     /* CREATE Review */
     @Transactional
-    public void createReview(String token, Long campingId, ReviewRequestDto reviewRequestDto) {
+    public void createReview(String token, Long campingId, ReviewRequestDto reviewRequestDto) throws IOException {
         Long memberId = authService.getMemberId(token);
         Member member = memberRepository.findMemberById(memberId);
 
+        //List<Attachment> attachments = attachmentService.saveAttachments(reviewRequestDto.getImageFiles());
+
+        Review review = new Review(member,
+                reviewRequestDto.getContent(),
+                reviewRequestDto.getRating(),
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")),
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM.dd HH:mm")),
+                campingId);
+
+       // attachments.stream()
+                        //.forEach(attachment -> review.setAttachment(attachment));
+
+        reviewRepository.save(review);
+
+        /*
         reviewRepository.save(Review.builder()
                         .writer(member)
                         .content(reviewRequestDto.getContent())
@@ -43,6 +61,7 @@ public class ReviewService {
                         .createdDate(LocalDateTime.now().format(
                                 DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")))
                         .build());
+         */
 
     }
 
@@ -86,6 +105,11 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
+    /* 리뷰 목록 반환 */
+    public List<ReviewResponseDto> getReviewList(Long campingId) {
+        List<ReviewResponseDto> result = reviewQuerydslRepository.findReviewListByCampingId(campingId);
+        return result;
+    }
 
     /*
     public Review post(ReviewRequestDto reviewRequestDto) throws IOException {

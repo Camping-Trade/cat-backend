@@ -31,7 +31,6 @@ public class Review extends TimeEntity {
     @Column
     private int rating;
 
-
     @Column(name = "created_date")
     @CreatedDate
     private String createdDate;
@@ -40,12 +39,6 @@ public class Review extends TimeEntity {
     @LastModifiedDate
     private String modifiedDate;
 
-    /*
-    @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
-     */
-
     @Column(name = "camping_id")
     private Long campingId;
 
@@ -53,20 +46,26 @@ public class Review extends TimeEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    /*
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Attachment> imageFiles = new ArrayList<>();
-    */
 
-    public void update(String content, int rating) {
+
+    @Builder
+    public Review (Member writer, String content, int rating, String createdDate, String modifiedDate,
+                   Long campingId) {
+        this.writer = writer;
         this.content = content;
         this.rating = rating;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+        this.campingId = campingId;
+        //this.imageFiles = imageFiles;
     }
 
-    /*
+
     public void setAttachment(Attachment attachment) {
         this.imageFiles.add(attachment);
         attachment.setReview(this);
     }
-     */
+
 }

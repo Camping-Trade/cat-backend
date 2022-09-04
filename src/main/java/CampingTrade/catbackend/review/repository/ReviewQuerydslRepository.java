@@ -1,6 +1,9 @@
 package CampingTrade.catbackend.review.repository;
 
+import CampingTrade.catbackend.review.dto.ReviewRequestDto;
+import CampingTrade.catbackend.review.dto.ReviewResponseDto;
 import CampingTrade.catbackend.review.entity.Review;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,7 @@ import javax.persistence.PersistenceContext;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static CampingTrade.catbackend.review.entity.QReview.review;
 @Repository
@@ -48,5 +52,28 @@ public class ReviewQuerydslRepository {
 
         em.flush();
         em.clear();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<ReviewResponseDto> findReviewListByCampingId(Long campingId) {
+
+        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(em);
+
+        List<ReviewResponseDto> reviewResponseDtoList = jpaQueryFactory
+                .select(Projections.fields(ReviewResponseDto.class,
+                        review.reviewId,
+                        review.writer.nickname,
+                        review.createdDate,
+                        review.modifiedDate,
+                        review.content,
+                        review.rating))
+                .from(review)
+                .where(review.campingId.eq(campingId))
+                .groupBy(review.reviewId)
+                .orderBy(review.reviewId.desc())
+                .fetch();
+
+        return reviewResponseDtoList;
     }
 }

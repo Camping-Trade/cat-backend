@@ -23,14 +23,13 @@ public class ReviewResponseDto {
     private String createdDate = LocalDateTime.now().format(
             DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")
     );
-    private String modifiedate = LocalDateTime.now().format(
+    private String modifiedDate = LocalDateTime.now().format(
             DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")
     );
 
-
     private String writer;
     private Long campingId;
-    private UploadFileResponse uploadFileResponse;
+    //private UploadFileResponse uploadFileResponse;
 
     /* Entity -> Dto */
     public ReviewResponseDto (Review review) {
@@ -38,7 +37,7 @@ public class ReviewResponseDto {
         this.content = review.getContent();
         this.rating = review.getRating();
         this.createdDate = review.getCreatedDate();
-        this.modifiedate = review.getModifiedDate();
+        this.modifiedDate = review.getModifiedDate();
         this.writer = review.getWriter().getNickname();
         this.campingId = review.getCampingId();
     }

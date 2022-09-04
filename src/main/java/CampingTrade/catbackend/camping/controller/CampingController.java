@@ -5,6 +5,7 @@ import CampingTrade.catbackend.common.dto.ApiResponse;
 import CampingTrade.catbackend.oauth.util.JwtHeaderUtil;
 import CampingTrade.catbackend.review.component.FileStore;
 import CampingTrade.catbackend.review.dto.ReviewRequestDto;
+import CampingTrade.catbackend.review.dto.ReviewResponseDto;
 import CampingTrade.catbackend.review.service.ReviewService;
 import io.jsonwebtoken.Jwt;
 import io.swagger.annotations.ApiOperation;
@@ -12,9 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,9 +33,21 @@ public class CampingController {
     /* CREATE Review */
     @ApiOperation(value = "리뷰 작성", notes = "상세 페이지 - 캠핑장 리뷰 작성")
     @PostMapping("/details/{campingId}/reviews")
-    public ResponseEntity<Void> createReview(@PathVariable Long campingId, HttpServletRequest request,
-                                             @RequestBody ReviewRequestDto reviewRequestDto) {
+    public ResponseEntity<Void> createReview(@PathVariable Long campingId,
+                                             HttpServletRequest request,
+                                             @RequestBody ReviewRequestDto reviewRequestDto)
+            throws IOException {
         String token = JwtHeaderUtil.getAccessToken(request);
+        /*
+        if (multipartFiles == null) {
+            reviewRequestDto.setImageFiles(new ArrayList<>());
+        }
+        else {
+            reviewRequestDto.setImageFiles(multipartFiles);
+        }
+        System.out.println(reviewRequestDto);
+
+         */
         reviewService.createReview(token, campingId, reviewRequestDto);
         return ApiResponse.success(null);
     }
@@ -61,9 +78,9 @@ public class CampingController {
 
     // 리뷰 반환
     @GetMapping("/details/{campingId}/reviews")
-    public ResponseEntity<CampingReviewResponse> getReviewList(@PathVariable Long campingId) {
+    public ResponseEntity<List<ReviewResponseDto>> getReviewList(@PathVariable Long campingId) {
 
-        return null;
+        return ApiResponse.success(reviewService.getReviewList(campingId));
 
     }
 

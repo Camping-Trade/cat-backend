@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @SequenceGenerator(
         name = "ATTACHMENT_SEQ_GENERATOR",
         sequenceName = "ATTACHMENT_SEQ"

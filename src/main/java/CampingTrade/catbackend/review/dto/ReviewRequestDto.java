@@ -1,6 +1,7 @@
 package CampingTrade.catbackend.review.dto;
 
 import CampingTrade.catbackend.member.entity.Member;
+import CampingTrade.catbackend.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,14 +13,14 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@Builder
 public class ReviewRequestDto {
 
     private String content;
     private int rating;
-    // private List<MultipartFile> imageFiles = new ArrayList<>();
+   //private List<MultipartFile> imageFiles = new ArrayList<>();
 
-    /*
+
+/*
     @Builder
     public ReviewRequestDto(String content, int rating, List<MultipartFile> imageFiles) {
         this.content = content;
@@ -27,7 +28,10 @@ public class ReviewRequestDto {
         this.imageFiles = (imageFiles != null) ? imageFiles: new ArrayList<>();
     }
 
-     */
+ */
+
+
+
 
     @Builder
     public ReviewRequestDto(String content, int rating) {
@@ -35,18 +39,7 @@ public class ReviewRequestDto {
         this.rating = rating;
     }
 
-    /*
-    public ReviewPostDto createReviewPostDto(Member member) {
-        List<MultipartFile> attachments = getImageFiles();
-        return ReviewPostDto.builder()
-                .content(content)
-                .rating(rating)
-                .writer(member)
-                .attachmentFiles(attachments)
-                .build();
-    }
 
-     */
 
     /*
     private Long reviewId;

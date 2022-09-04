@@ -14,7 +14,7 @@ spring:
   servlet:
     multipart:
       enabled: 'true'
-      location: C:\\Temp\\Upload
+      location: C:\\temp\\upload
       max-file-size: 10MB
       max-request-size: 30MB
 
