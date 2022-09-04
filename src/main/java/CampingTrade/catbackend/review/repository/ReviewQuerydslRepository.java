@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static CampingTrade.catbackend.review.entity.QReview.review;
 @Repository
 @RequiredArgsConstructor
@@ -38,6 +41,7 @@ public class ReviewQuerydslRepository {
                 .update(review)
                 .set(review.content, content)
                 .set(review.rating, rating)
+                .set(review.modifiedDate, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")))
                 .where(review.campingId.eq(campingId)
                         .and(review.reviewId.eq(reviewId)))
                 .execute();

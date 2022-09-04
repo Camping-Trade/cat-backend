@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Review {
+public class Review extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +39,6 @@ public class Review {
     @Column(name = "modified_date")
     @LastModifiedDate
     private String modifiedDate;
-
-
-    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    //private LocalDateTime createdDate;
 
     /*
     @ManyToOne

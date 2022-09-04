@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -34,11 +36,13 @@ public class ReviewService {
         Member member = memberRepository.findMemberById(memberId);
 
         reviewRepository.save(Review.builder()
-                .writer(member)
-                .content(reviewRequestDto.getContent())
-                .rating(reviewRequestDto.getRating())
-                .campingId(campingId)
-                .build());
+                        .writer(member)
+                        .content(reviewRequestDto.getContent())
+                        .rating(reviewRequestDto.getRating())
+                        .campingId(campingId)
+                        .createdDate(LocalDateTime.now().format(
+                                DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")))
+                        .build());
 
     }
 
