@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.oauth.payload;
+package CampingTrade.catbackend.oauth.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

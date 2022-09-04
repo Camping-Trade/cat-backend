@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.common.payload;
+package CampingTrade.catbackend.common.dto;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -17,5 +17,9 @@ public class ApiResponse<T> {
 
     public static <T> ResponseEntity<T> forbidden (T body) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
+    }
+
+    public static <T> ResponseEntity<T> internalServerError (T body) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 }

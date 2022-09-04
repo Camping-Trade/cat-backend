@@ -1,14 +1,17 @@
 package CampingTrade.catbackend.review.entity;
 
+import CampingTrade.catbackend.camping.entity.Board;
 import CampingTrade.catbackend.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -28,6 +31,7 @@ public class Review {
     @Column
     private int rating;
 
+
     @Column(name = "created_date")
     @CreatedDate
     private String createdDate;
@@ -36,15 +40,37 @@ public class Review {
     @LastModifiedDate
     private String modifiedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
 
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    //private LocalDateTime createdDate;
+
+    /*
     @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
+     */
+
+    @Column(name = "camping_id")
+    private Long campingId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member writer;
 
-    public void update(String content) {
+    /*
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<Attachment> imageFiles = new ArrayList<>();
+    */
+
+    public void update(String content, int rating) {
         this.content = content;
+        this.rating = rating;
     }
+
+    /*
+    public void setAttachment(Attachment attachment) {
+        this.imageFiles.add(attachment);
+        attachment.setReview(this);
+    }
+     */
 }

@@ -1,11 +1,10 @@
 package CampingTrade.catbackend.member.repository;
 
 import CampingTrade.catbackend.member.entity.Member;
-import CampingTrade.catbackend.member.payload.MemberResponse;
+import CampingTrade.catbackend.member.dto.MemberResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

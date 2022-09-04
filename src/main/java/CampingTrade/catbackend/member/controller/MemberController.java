@@ -1,7 +1,7 @@
 package CampingTrade.catbackend.member.controller;
 
-import CampingTrade.catbackend.common.payload.ApiResponse;
-import CampingTrade.catbackend.member.payload.MemberResponse;
+import CampingTrade.catbackend.common.dto.ApiResponse;
+import CampingTrade.catbackend.member.dto.MemberResponse;
 import CampingTrade.catbackend.member.service.MemberService;
 import CampingTrade.catbackend.oauth.util.JwtHeaderUtil;
 import io.swagger.annotations.ApiOperation;

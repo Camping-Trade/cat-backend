@@ -1,22 +1,54 @@
 package CampingTrade.catbackend.review.dto;
 
 import CampingTrade.catbackend.member.entity.Member;
-import CampingTrade.catbackend.review.entity.Post;
-import CampingTrade.catbackend.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ReviewRequestDto {
 
+    private String content;
+    private int rating;
+    // private List<MultipartFile> imageFiles = new ArrayList<>();
+
+    /*
+    @Builder
+    public ReviewRequestDto(String content, int rating, List<MultipartFile> imageFiles) {
+        this.content = content;
+        this.rating = rating;
+        this.imageFiles = (imageFiles != null) ? imageFiles: new ArrayList<>();
+    }
+
+     */
+
+    @Builder
+    public ReviewRequestDto(String content, int rating) {
+        this.content = content;
+        this.rating = rating;
+    }
+
+    /*
+    public ReviewPostDto createReviewPostDto(Member member) {
+        List<MultipartFile> attachments = getImageFiles();
+        return ReviewPostDto.builder()
+                .content(content)
+                .rating(rating)
+                .writer(member)
+                .attachmentFiles(attachments)
+                .build();
+    }
+
+     */
+
+    /*
     private Long reviewId;
     private String content;
     private int rating;
@@ -30,8 +62,9 @@ public class ReviewRequestDto {
 
     private Member member;
     private Post post;
+    private List<String> imagePathList = new ArrayList<>();
 
-    /* Dto -> Entity */
+    // Dto -> Entity
     public Review toEntity() {
         Review review = Review.builder()
                 .reviewId(reviewId)
@@ -45,4 +78,5 @@ public class ReviewRequestDto {
 
         return review;
     }
+    */
 }

@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.member.payload;
+package CampingTrade.catbackend.member.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

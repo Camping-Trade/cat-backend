@@ -3,7 +3,7 @@ package CampingTrade.catbackend.oauth.client;
 import CampingTrade.catbackend.member.entity.Member;
 import CampingTrade.catbackend.oauth.enumerate.RoleType;
 import CampingTrade.catbackend.oauth.exception.TokenValidFailedException;
-import CampingTrade.catbackend.oauth.payload.KakaoUserResponse;
+import CampingTrade.catbackend.oauth.dto.KakaoUserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

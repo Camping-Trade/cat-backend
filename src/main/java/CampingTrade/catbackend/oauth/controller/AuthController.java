@@ -1,8 +1,8 @@
 package CampingTrade.catbackend.oauth.controller;
 
-import CampingTrade.catbackend.common.payload.ApiResponse;
-import CampingTrade.catbackend.oauth.payload.AuthRequest;
-import CampingTrade.catbackend.oauth.payload.AuthResponse;
+import CampingTrade.catbackend.common.dto.ApiResponse;
+import CampingTrade.catbackend.oauth.dto.AuthRequest;
+import CampingTrade.catbackend.oauth.dto.AuthResponse;
 import CampingTrade.catbackend.oauth.service.AuthService;
 import CampingTrade.catbackend.oauth.service.KakaoAuthService;
 import CampingTrade.catbackend.oauth.token.AuthToken;

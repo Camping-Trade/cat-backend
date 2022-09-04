@@ -2,7 +2,7 @@ package CampingTrade.catbackend.oauth.service;
 
 import CampingTrade.catbackend.member.entity.Member;
 import CampingTrade.catbackend.member.repository.MemberQuerydslRepository;
-import CampingTrade.catbackend.oauth.payload.AuthResponse;
+import CampingTrade.catbackend.oauth.dto.AuthResponse;
 import CampingTrade.catbackend.oauth.token.AuthToken;
 import CampingTrade.catbackend.oauth.token.AuthTokenProvider;
 import io.jsonwebtoken.Claims;
@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.security.Key;
 
 @Slf4j
 @Service

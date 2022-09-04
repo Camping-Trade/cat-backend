@@ -1,4 +1,4 @@
-package CampingTrade.catbackend.oauth.payload;
+package CampingTrade.catbackend.oauth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
