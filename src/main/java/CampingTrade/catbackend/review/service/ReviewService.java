@@ -1,12 +1,10 @@
 package CampingTrade.catbackend.review.service;
 
-import CampingTrade.catbackend.camping.dto.CampingReviewResponse;
 import CampingTrade.catbackend.member.entity.Member;
 import CampingTrade.catbackend.member.repository.MemberRepository;
 import CampingTrade.catbackend.oauth.service.AuthService;
 import CampingTrade.catbackend.review.dto.ReviewRequestDto;
 import CampingTrade.catbackend.review.dto.ReviewResponseDto;
-import CampingTrade.catbackend.review.entity.Attachment;
 import CampingTrade.catbackend.review.entity.Review;
 import CampingTrade.catbackend.review.repository.ReviewQuerydslRepository;
 import CampingTrade.catbackend.review.repository.ReviewRepository;
@@ -19,7 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -107,8 +104,8 @@ public class ReviewService {
 
     /* 리뷰 목록 반환 */
     public List<ReviewResponseDto> getReviewList(Long campingId) {
-        List<ReviewResponseDto> result = reviewQuerydslRepository.findReviewListByCampingId(campingId);
-        return result;
+        List<ReviewResponseDto> reviewList = reviewQuerydslRepository.findReviewListByCampingId(campingId);
+        return reviewList;
     }
 
     /*
