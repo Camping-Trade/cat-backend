@@ -3,20 +3,25 @@ package CampingTrade.catbackend.review.service;
 import CampingTrade.catbackend.member.entity.Member;
 import CampingTrade.catbackend.member.repository.MemberRepository;
 import CampingTrade.catbackend.oauth.service.AuthService;
+import CampingTrade.catbackend.review.dto.ImageDto;
 import CampingTrade.catbackend.review.dto.ReviewRequestDto;
 import CampingTrade.catbackend.review.dto.ReviewResponseDto;
+import CampingTrade.catbackend.review.entity.Image;
 import CampingTrade.catbackend.review.entity.Review;
+import CampingTrade.catbackend.review.repository.ImageRepository;
 import CampingTrade.catbackend.review.repository.ReviewQuerydslRepository;
 import CampingTrade.catbackend.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,38 +32,67 @@ public class ReviewService {
     private final ReviewQuerydslRepository reviewQuerydslRepository;
     private final MemberRepository memberRepository;
     private final AuthService authService;
-    private final AttachmentService attachmentService;
+    private final ImageRepository imageRepository;
 
     /* CREATE Review */
     @Transactional
-    public void createReview(String token, Long campingId, ReviewRequestDto reviewRequestDto) throws IOException {
+    public void createReview(String token, Long campingId, ReviewRequestDto reviewRequestDto) {
         Long memberId = authService.getMemberId(token);
         Member member = memberRepository.findMemberById(memberId);
 
-        //List<Attachment> attachments = attachmentService.saveAttachments(reviewRequestDto.getImageFiles());
+        MultipartFile multipartFile = reviewRequestDto.getImage();
+
+        // 현재 시간
+        LocalDateTime now = LocalDateTime.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        int day = now.getDayOfMonth();
+        int hour = now.getHour();
+        int minute = now.getMinute();
+        int second = now.getSecond();
+        int millis = now.get(ChronoField.MILLI_OF_SECOND);
+
+        // 폴더 및 파일명 생성
+        String absolutePath = new File("${spring.servlet.multipart.location}").getAbsolutePath() + "/";
+        String newFileName = "image" + hour + minute + second + millis;
+        String fileExtension = '.' + multipartFile.getOriginalFilename().replaceAll("^.*₩₩.(.*)$", "$1");
+        String path = "/images/local" + year + "/" + month + "/" + day;
+
+        Image image = Image.builder().build();
+
+        try {
+            if (!multipartFile.isEmpty()) {
+                File file = new File(absolutePath + path);
+
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+
+                file = new File(absolutePath + path + "/" + newFileName + fileExtension);
+                multipartFile.transferTo(file);
+
+                image = Image.builder()
+                        .originImageName(multipartFile.getOriginalFilename())
+                        .imageName(newFileName + fileExtension)
+                        .imagePath(path)
+                        .build();
+
+                imageRepository.save(image);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         Review review = new Review(member,
                 reviewRequestDto.getContent(),
                 reviewRequestDto.getRating(),
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")),
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM.dd HH:mm")),
-                campingId);
-
-       // attachments.stream()
-                        //.forEach(attachment -> review.setAttachment(attachment));
+                campingId,
+                image);
 
         reviewRepository.save(review);
-
-        /*
-        reviewRepository.save(Review.builder()
-                        .writer(member)
-                        .content(reviewRequestDto.getContent())
-                        .rating(reviewRequestDto.getRating())
-                        .campingId(campingId)
-                        .createdDate(LocalDateTime.now().format(
-                                DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")))
-                        .build());
-         */
 
     }
 
@@ -108,16 +142,49 @@ public class ReviewService {
         return reviewList;
     }
 
-    /*
-    public Review post(ReviewRequestDto reviewRequestDto) throws IOException {
-        List<Attachment> attachments = attachmentService.saveAttachments(reviewRequestDto.getAttachmentFiles());
+    @Transactional
+    public void saveImage(MultipartFile multipartFile) {
 
-        Review review = reviewRequestDto.createReview();
-        attachments.stream()
-                .forEach(attachment -> review.setAttachment(attachment));
+        // 현재 시간
+        LocalDateTime now = LocalDateTime.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        int day = now.getDayOfMonth();
+        int hour = now.getHour();
+        int minute = now.getMinute();
+        int second = now.getSecond();
+        int millis = now.get(ChronoField.MILLI_OF_SECOND);
 
-        return reviewRepository.save(review);
+        // 폴더 및 파일명 생성
+        String absolutePath = new File("${spring.servlet.multipart.location}").getAbsolutePath() + "/";
+        String newFileName = "image" + hour + minute + second + millis;
+        String fileExtension = '.' + multipartFile.getOriginalFilename().replaceAll("^.*₩₩.(.*)$", "$1");
+        String path = "/images/local" + year + "/" + month + "/" + day;
+
+        try {
+            if (!multipartFile.isEmpty()) {
+                File file = new File(absolutePath + path);
+
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+
+                file = new File(absolutePath + path + "/" + newFileName + fileExtension);
+                multipartFile.transferTo(file);
+
+                Image image = Image.builder()
+                                .originImageName(multipartFile.getOriginalFilename())
+                                .imageName(newFileName + fileExtension)
+                                .imagePath(path)
+                                .build();
+
+                imageRepository.save(image);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
-     */
+
 }

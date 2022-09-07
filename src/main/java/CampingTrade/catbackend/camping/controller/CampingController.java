@@ -2,19 +2,24 @@ package CampingTrade.catbackend.camping.controller;
 
 import CampingTrade.catbackend.common.dto.ApiResponse;
 import CampingTrade.catbackend.oauth.util.JwtHeaderUtil;
-import CampingTrade.catbackend.review.component.FileStore;
+import CampingTrade.catbackend.review.dto.ImageDto;
 import CampingTrade.catbackend.review.dto.ReviewRequestDto;
 import CampingTrade.catbackend.review.dto.ReviewResponseDto;
 import CampingTrade.catbackend.review.service.ReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 @RestController
@@ -23,33 +28,22 @@ import java.util.List;
 @RequestMapping("/camping")
 public class CampingController {
 
-    private final FileStore fileStore;
     private final ReviewService reviewService;
 
     /* CREATE Review */
     @ApiOperation(value = "리뷰 작성", notes = "상세 페이지 - 캠핑장 리뷰 작성")
-    @PostMapping("/details/{campingId}/reviews")
+    @PostMapping(path = "/details/{campingId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> createReview(HttpServletRequest request,
                                              @PathVariable Long campingId,
-                                             @RequestBody ReviewRequestDto reviewRequestDto)
-            throws IOException {
+                                             @ModelAttribute ReviewRequestDto reviewRequestDto)
+            throws Exception {
         String token = JwtHeaderUtil.getAccessToken(request);
-        /*
-        if (multipartFiles == null) {
-            reviewRequestDto.setImageFiles(new ArrayList<>());
-        }
-        else {
-            reviewRequestDto.setImageFiles(multipartFiles);
-        }
-        System.out.println(reviewRequestDto);
-
-         */
         reviewService.createReview(token, campingId, reviewRequestDto);
         return ApiResponse.success(null);
     }
 
 
-    // UPDATE Review
+    /* UPDATE Review */
     @ApiOperation(value = "리뷰 수정", notes = "상세 페이지 - 캠핑장 리뷰 수정")
     @PutMapping("/details/{campingId}/reviews/{reviewId}")
     public ResponseEntity<Void> updateReview(HttpServletRequest request,
@@ -72,18 +66,12 @@ public class CampingController {
     }
 
 
-    // 리뷰 반환
+    /* Get Review list */
     @GetMapping("/details/{campingId}/reviews")
     public ResponseEntity<List<ReviewResponseDto>> getReviewList(@PathVariable Long campingId) {
 
         return ApiResponse.success(reviewService.getReviewList(campingId));
 
-    }
-
-    // 이미지 로드
-    @GetMapping("/images/{filename}")
-    public UrlResource processImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.createPath(filename));
     }
 
 }

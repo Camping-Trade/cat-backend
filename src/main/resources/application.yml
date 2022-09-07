@@ -6,7 +6,7 @@ spring:
     url: jdbc:mariadb://cat-database.ccmo8onyohgn.ap-northeast-2.rds.amazonaws.com:3306/cat_database
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true

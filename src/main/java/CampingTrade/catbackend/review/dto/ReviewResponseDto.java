@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +30,7 @@ public class ReviewResponseDto {
 
     private String writer;
     private Long campingId;
-    //private UploadFileResponse uploadFileResponse;
+    private MultipartFile images;
 
     /* Entity -> Dto */
     public ReviewResponseDto (Review review) {

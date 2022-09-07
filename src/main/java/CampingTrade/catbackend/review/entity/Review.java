@@ -1,17 +1,12 @@
 package CampingTrade.catbackend.review.entity;
 
-import CampingTrade.catbackend.camping.entity.Board;
 import CampingTrade.catbackend.member.entity.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -46,26 +41,21 @@ public class Review extends TimeEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    private List<Attachment> imageFiles = new ArrayList<>();
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_no")
+    private Image images;
 
     @Builder
     public Review (Member writer, String content, int rating, String createdDate, String modifiedDate,
-                   Long campingId) {
+                   Long campingId, Image images) {
         this.writer = writer;
         this.content = content;
         this.rating = rating;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
         this.campingId = campingId;
-        //this.imageFiles = imageFiles;
+        this.images = images;
     }
 
-
-    public void setAttachment(Attachment attachment) {
-        this.imageFiles.add(attachment);
-        attachment.setReview(this);
-    }
 
 }
