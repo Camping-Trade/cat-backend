@@ -44,6 +44,9 @@
 # *.iml
 # *.ipr
 
+# yml
+application-aws.yml
+
 # CMake
 cmake-build-*/
 
