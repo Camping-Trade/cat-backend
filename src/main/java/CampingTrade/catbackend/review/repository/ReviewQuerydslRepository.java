@@ -1,6 +1,5 @@
 package CampingTrade.catbackend.review.repository;
 
-import CampingTrade.catbackend.review.dto.ReviewRequestDto;
 import CampingTrade.catbackend.review.dto.ReviewResponseDto;
 import CampingTrade.catbackend.review.entity.Review;
 import com.querydsl.core.types.Projections;
@@ -63,11 +62,13 @@ public class ReviewQuerydslRepository {
         List<ReviewResponseDto> reviewResponseDtoList = jpaQueryFactory
                 .select(Projections.fields(ReviewResponseDto.class,
                         review.reviewId,
-                        review.writer.nickname,
+                        review.content,
+                        review.rating,
                         review.createdDate,
                         review.modifiedDate,
-                        review.content,
-                        review.rating))
+                        review.writer.nickname.as("writer"),
+                        review.campingId,
+                        review.images))
                 .from(review)
                 .where(review.campingId.eq(campingId))
                 .groupBy(review.reviewId)

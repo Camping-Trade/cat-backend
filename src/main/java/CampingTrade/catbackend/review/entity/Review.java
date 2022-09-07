@@ -1,12 +1,15 @@
 package CampingTrade.catbackend.review.entity;
 
 import CampingTrade.catbackend.member.entity.Member;
+import CampingTrade.catbackend.review.converter.StringListConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -41,21 +44,19 @@ public class Review extends TimeEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_no")
-    private Image images;
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "images")
+    private List<String> images = new ArrayList<>();
 
-    @Builder
-    public Review (Member writer, String content, int rating, String createdDate, String modifiedDate,
-                   Long campingId, Image images) {
-        this.writer = writer;
+    public Review(String content, int rating, String createdDate, String modifiedDate, Long campingId,
+                  Member writer, List<String> images) {
         this.content = content;
         this.rating = rating;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
         this.campingId = campingId;
+        this.writer = writer;
         this.images = images;
     }
-
 
 }

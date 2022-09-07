@@ -1,14 +1,12 @@
 package CampingTrade.catbackend.review.service;
 
+import CampingTrade.catbackend.common.handler.S3Uploader;
 import CampingTrade.catbackend.member.entity.Member;
 import CampingTrade.catbackend.member.repository.MemberRepository;
 import CampingTrade.catbackend.oauth.service.AuthService;
-import CampingTrade.catbackend.review.dto.ImageDto;
 import CampingTrade.catbackend.review.dto.ReviewRequestDto;
 import CampingTrade.catbackend.review.dto.ReviewResponseDto;
-import CampingTrade.catbackend.review.entity.Image;
 import CampingTrade.catbackend.review.entity.Review;
-import CampingTrade.catbackend.review.repository.ImageRepository;
 import CampingTrade.catbackend.review.repository.ReviewQuerydslRepository;
 import CampingTrade.catbackend.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,65 +30,37 @@ public class ReviewService {
     private final ReviewQuerydslRepository reviewQuerydslRepository;
     private final MemberRepository memberRepository;
     private final AuthService authService;
-    private final ImageRepository imageRepository;
+    private final S3Uploader s3Uploader;
+
 
     /* CREATE Review */
     @Transactional
-    public void createReview(String token, Long campingId, ReviewRequestDto reviewRequestDto) {
+    public void createReview(String token, Long campingId, ReviewRequestDto reviewRequestDto) throws IOException {
         Long memberId = authService.getMemberId(token);
         Member member = memberRepository.findMemberById(memberId);
 
-        MultipartFile multipartFile = reviewRequestDto.getImage();
+        List<MultipartFile> images = reviewRequestDto.getImages();
 
-        // 현재 시간
-        LocalDateTime now = LocalDateTime.now();
-        int year = now.getYear();
-        int month = now.getMonthValue();
-        int day = now.getDayOfMonth();
-        int hour = now.getHour();
-        int minute = now.getMinute();
-        int second = now.getSecond();
-        int millis = now.get(ChronoField.MILLI_OF_SECOND);
+        Review review = Review.builder()
+                .content(reviewRequestDto.getContent())
+                .rating(reviewRequestDto.getRating())
+                .createdDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")))
+                .modifiedDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")))
+                .campingId(campingId)
+                .writer(member)
+                .images(new ArrayList<>())
+                .build();
 
-        // 폴더 및 파일명 생성
-        String absolutePath = new File("${spring.servlet.multipart.location}").getAbsolutePath() + "/";
-        String newFileName = "image" + hour + minute + second + millis;
-        String fileExtension = '.' + multipartFile.getOriginalFilename().replaceAll("^.*₩₩.(.*)$", "$1");
-        String path = "/images/local" + year + "/" + month + "/" + day;
-
-        Image image = Image.builder().build();
-
-        try {
-            if (!multipartFile.isEmpty()) {
-                File file = new File(absolutePath + path);
-
-                if (!file.exists()) {
-                    file.mkdirs();
+        if (!images.isEmpty()) {
+            images.forEach((f) -> {
+                try {
+                    String S3Url = s3Uploader.upload(f, "static");
+                    review.getImages().add(S3Url);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                file = new File(absolutePath + path + "/" + newFileName + fileExtension);
-                multipartFile.transferTo(file);
-
-                image = Image.builder()
-                        .originImageName(multipartFile.getOriginalFilename())
-                        .imageName(newFileName + fileExtension)
-                        .imagePath(path)
-                        .build();
-
-                imageRepository.save(image);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            });
         }
-
-
-        Review review = new Review(member,
-                reviewRequestDto.getContent(),
-                reviewRequestDto.getRating(),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM.dd HH:mm")),
-                campingId,
-                image);
 
         reviewRepository.save(review);
 
@@ -142,49 +112,6 @@ public class ReviewService {
         return reviewList;
     }
 
-    @Transactional
-    public void saveImage(MultipartFile multipartFile) {
-
-        // 현재 시간
-        LocalDateTime now = LocalDateTime.now();
-        int year = now.getYear();
-        int month = now.getMonthValue();
-        int day = now.getDayOfMonth();
-        int hour = now.getHour();
-        int minute = now.getMinute();
-        int second = now.getSecond();
-        int millis = now.get(ChronoField.MILLI_OF_SECOND);
-
-        // 폴더 및 파일명 생성
-        String absolutePath = new File("${spring.servlet.multipart.location}").getAbsolutePath() + "/";
-        String newFileName = "image" + hour + minute + second + millis;
-        String fileExtension = '.' + multipartFile.getOriginalFilename().replaceAll("^.*₩₩.(.*)$", "$1");
-        String path = "/images/local" + year + "/" + month + "/" + day;
-
-        try {
-            if (!multipartFile.isEmpty()) {
-                File file = new File(absolutePath + path);
-
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-
-                file = new File(absolutePath + path + "/" + newFileName + fileExtension);
-                multipartFile.transferTo(file);
-
-                Image image = Image.builder()
-                                .originImageName(multipartFile.getOriginalFilename())
-                                .imageName(newFileName + fileExtension)
-                                .imagePath(path)
-                                .build();
-
-                imageRepository.save(image);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
 }

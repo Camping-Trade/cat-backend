@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -30,7 +32,7 @@ public class ReviewResponseDto {
 
     private String writer;
     private Long campingId;
-    private MultipartFile images;
+    private List<String> images = new ArrayList<>();
 
     /* Entity -> Dto */
     public ReviewResponseDto (Review review) {

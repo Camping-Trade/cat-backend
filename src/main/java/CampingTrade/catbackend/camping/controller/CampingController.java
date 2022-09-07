@@ -1,25 +1,20 @@
 package CampingTrade.catbackend.camping.controller;
 
 import CampingTrade.catbackend.common.dto.ApiResponse;
+import CampingTrade.catbackend.common.handler.S3Uploader;
 import CampingTrade.catbackend.oauth.util.JwtHeaderUtil;
-import CampingTrade.catbackend.review.dto.ImageDto;
 import CampingTrade.catbackend.review.dto.ReviewRequestDto;
 import CampingTrade.catbackend.review.dto.ReviewResponseDto;
 import CampingTrade.catbackend.review.service.ReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
 import java.util.List;
 
 @RestController
@@ -29,15 +24,18 @@ import java.util.List;
 public class CampingController {
 
     private final ReviewService reviewService;
+    private final S3Uploader s3Uploader;
 
     /* CREATE Review */
     @ApiOperation(value = "리뷰 작성", notes = "상세 페이지 - 캠핑장 리뷰 작성")
     @PostMapping(path = "/details/{campingId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> createReview(HttpServletRequest request,
                                              @PathVariable Long campingId,
-                                             @ModelAttribute ReviewRequestDto reviewRequestDto)
-            throws Exception {
+                                             @RequestPart(required = false) List<MultipartFile> images,
+                                             @RequestPart ReviewRequestDto reviewRequestDto)
+            throws IOException {
         String token = JwtHeaderUtil.getAccessToken(request);
+        reviewRequestDto.setImages(images);
         reviewService.createReview(token, campingId, reviewRequestDto);
         return ApiResponse.success(null);
     }

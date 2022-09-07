@@ -13,10 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class ReviewRequestDto {
 
     private String content;
     private int rating;
-    private MultipartFile image;
+    private List<MultipartFile> images;
 
 }
