@@ -89,7 +89,7 @@ public class ReviewService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 리뷰가 존재하지 않습니다.");
         }
 
-       reviewQuerydslRepository.updateReview(reviewRequestDto.getContent(),
+        reviewQuerydslRepository.updateReview(reviewRequestDto.getContent(),
                reviewRequestDto.getRating(), campingId, reviewId);
 
     }
@@ -115,7 +115,6 @@ public class ReviewService {
         if (!images.isEmpty()) {
             images.forEach((f) -> {
                 f = f.substring(56);
-                System.out.println("fileName: " + f);
                 amazonS3.deleteObject(new DeleteObjectRequest(bucket, f));
             });
         }
