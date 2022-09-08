@@ -9,7 +9,10 @@ import CampingTrade.catbackend.review.dto.ReviewResponseDto;
 import CampingTrade.catbackend.review.entity.Review;
 import CampingTrade.catbackend.review.repository.ReviewQuerydslRepository;
 import CampingTrade.catbackend.review.repository.ReviewRepository;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +29,15 @@ import java.util.List;
 @Service
 public class ReviewService {
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
     private final ReviewRepository reviewRepository;
     private final ReviewQuerydslRepository reviewQuerydslRepository;
     private final MemberRepository memberRepository;
     private final AuthService authService;
     private final S3Uploader s3Uploader;
+    private final AmazonS3 amazonS3;
 
 
     /* CREATE Review */
@@ -101,6 +108,16 @@ public class ReviewService {
         Review review = reviewQuerydslRepository.findByCampingIdAndReviewId(campingId, reviewId);
         if (review == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 리뷰가 존재하지 않습니다.");
+        }
+
+        List<String> images = review.getImages();
+
+        if (!images.isEmpty()) {
+            images.forEach((f) -> {
+                f = f.substring(56);
+                System.out.println("fileName: " + f);
+                amazonS3.deleteObject(new DeleteObjectRequest(bucket, f));
+            });
         }
 
         reviewRepository.delete(review);
