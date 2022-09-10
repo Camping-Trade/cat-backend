@@ -112,12 +112,12 @@ public class ReviewService {
 
         List<String> images = review.getImages();
 
-        if (!images.isEmpty()) {
-            images.forEach((f) -> {
+        images.forEach((f) -> {
+            if (!f.isEmpty()) {
                 f = f.substring(56);
                 amazonS3.deleteObject(new DeleteObjectRequest(bucket, f));
-            });
-        }
+            }
+        });
 
         reviewRepository.delete(review);
     }
