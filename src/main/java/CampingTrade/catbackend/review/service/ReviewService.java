@@ -46,10 +46,14 @@ public class ReviewService {
         Long memberId = authService.getMemberId(token);
         Member member = memberRepository.findMemberById(memberId);
 
-        List<MultipartFile> images = null;
+        //List<MultipartFile> images = reviewRequestDto.getImages();
+
+
+        List<MultipartFile> images = new ArrayList<>();
         if (reviewRequestDto.getImages() != null) {
             images = reviewRequestDto.getImages();
         }
+
 
         Review review = Review.builder()
                 .content(reviewRequestDto.getContent())

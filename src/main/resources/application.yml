@@ -28,5 +28,5 @@ logging:
 app:
   auth:
     tokenSecret: jwtsecretkeyofcatbackendfromewha
-    tokenExpiry: 1800000
+    tokenExpiry: 3600000
 
