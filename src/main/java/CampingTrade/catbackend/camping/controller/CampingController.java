@@ -37,7 +37,7 @@ public class CampingController {
         String token = JwtHeaderUtil.getAccessToken(request);
         reviewRequestDto.setImages(images);
 
-        
+
         if (images != null) {
             reviewRequestDto.setImages(images);
         }
