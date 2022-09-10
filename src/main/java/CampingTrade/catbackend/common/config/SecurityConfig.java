@@ -21,6 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -66,6 +67,7 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests() // 요청에 대한 사용권한 체크
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll() // preflight 대응
                 .antMatchers("/auth/**").permitAll() // "/auth/**"에 대한 접근을 인증 절차 없이 허용(로그인 관련 url)
                 /*
