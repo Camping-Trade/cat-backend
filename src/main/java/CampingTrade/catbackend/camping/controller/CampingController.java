@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,14 +29,21 @@ public class CampingController {
 
     /* CREATE Review */
     @ApiOperation(value = "리뷰 작성", notes = "상세 페이지 - 캠핑장 리뷰 작성")
-    @PostMapping(path = "/details/{campingId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/details/{campingId}/reviews",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> createReview(HttpServletRequest request,
                                              @PathVariable Long campingId,
                                              @RequestPart(required = false) List<MultipartFile> images,
                                              @RequestPart ReviewRequestDto reviewRequestDto)
             throws IOException {
         String token = JwtHeaderUtil.getAccessToken(request);
-        reviewRequestDto.setImages(images);
+        if (images != null) {
+            reviewRequestDto.setImages(images);
+        }
+        else {
+            reviewRequestDto.setImages(null);
+        }
+
         reviewService.createReview(token, campingId, reviewRequestDto);
         return ApiResponse.success(null);
     }
