@@ -30,3 +30,9 @@ app:
     tokenSecret: jwtsecretkeyofcatbackendfromewha
     tokenExpiry: 3600000
 
+server:
+  ssl:
+    key-store: classpath:cat-keystore.p12
+    key-store-type: PKCS12
+    key-store-password: catewha2022
+    key-alias: cat-keystore
