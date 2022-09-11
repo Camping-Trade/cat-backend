@@ -36,3 +36,4 @@ server:
     key-store-type: PKCS12
     key-store-password: catewha2022
     key-alias: cat-keystore
+    enabled: true

@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://camping-trade.netlify.app")
 @RequestMapping("/camping")
 public class CampingController {
 

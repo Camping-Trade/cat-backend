@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("reservation/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://camping-trade.netlify.app")
 public class ReservationController {
 
     private final ReservationService reservationService;

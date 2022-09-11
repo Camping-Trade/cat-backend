@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://camping-trade.netlify.app")
 public class AuthController {
 
     private final KakaoAuthService kakaoAuthService;
