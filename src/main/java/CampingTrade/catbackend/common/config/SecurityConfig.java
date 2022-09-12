@@ -56,7 +56,8 @@ public class SecurityConfig {
                 "/v2/api-docs",
                 "/configuration/**",
                 "/swagger*/**",
-                "/webjars/**"
+                "/webjars/**",
+                "/camping/details/**/reviews"
         );
     }
 
