@@ -1,7 +1,7 @@
 # cat-backend
-[관광데이터 공모전 출전작] CaT(Camping Trade)의 웹 서버입니다.🏕
+
 ## 📁 프로젝트 소개
-캠핑장 예약 및 캠핑 물품 나눔 플랫폼 CaT(Camping Trade)의 웹 서버입니다.
+🏕 캠핑장 예약 및 캠핑 물품 나눔 플랫폼 CaT(Camping Trade)의 웹 서버입니다.
 <br/>
 
 ## 👩🏻‍💻 개발 기간
