@@ -1,9 +1,11 @@
 package CampingTrade.catbackend.member.service;
 
 import CampingTrade.catbackend.member.dto.MemberResponse;
+import CampingTrade.catbackend.member.dto.SharingResponseDto;
 import CampingTrade.catbackend.member.entity.Member;
 import CampingTrade.catbackend.member.repository.MemberQuerydslRepository;
 import CampingTrade.catbackend.member.repository.MemberRepository;
+import CampingTrade.catbackend.member.repository.SharingQuerydslRepository;
 import CampingTrade.catbackend.oauth.service.AuthService;
 import CampingTrade.catbackend.reservation.dto.ReservationResponseDto;
 import CampingTrade.catbackend.reservation.repository.ReservationQuerydslRepository;
@@ -23,6 +25,7 @@ public class MemberService {
 
     private final AuthService authService;
     private final MemberQuerydslRepository memberQuerydslRepository;
+    private final SharingQuerydslRepository sharingQuerydslRepository;
     private final ReservationQuerydslRepository reservationQuerydslRepository;
     private final MemberRepository memberRepository;
 
@@ -46,6 +49,16 @@ public class MemberService {
 
         return reservationList;
     }
+
+    /* 나눔 리스트 반환 */
+    public List<SharingResponseDto> getSharingData(String token) {
+        Long memberId = authService.getMemberId(token);
+        List<SharingResponseDto> sharingList = sharingQuerydslRepository
+                .findSharingListByMemberId(memberId);
+
+        return sharingList;
+    }
+
 
     //@Transactional
     /* 유저 정보 삭제

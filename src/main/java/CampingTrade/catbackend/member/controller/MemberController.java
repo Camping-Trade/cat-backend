@@ -2,6 +2,7 @@ package CampingTrade.catbackend.member.controller;
 
 import CampingTrade.catbackend.common.dto.ApiResponse;
 import CampingTrade.catbackend.member.dto.MemberResponse;
+import CampingTrade.catbackend.member.dto.SharingResponseDto;
 import CampingTrade.catbackend.member.service.MemberService;
 import CampingTrade.catbackend.oauth.util.JwtHeaderUtil;
 import CampingTrade.catbackend.reservation.dto.ReservationResponseDto;
@@ -40,6 +41,12 @@ public class MemberController {
     }
 
     /* 유저 - 나눔 정보 조회 */
+    @ApiOperation(value = "나눔 정보 조회", notes = "사용자의 나눔 내역 반환")
+    @GetMapping("/sharing")
+    public ResponseEntity<List<SharingResponseDto>> getSharingData(HttpServletRequest request) {
+        String token = JwtHeaderUtil.getAccessToken(request);
+        return ApiResponse.success(memberService.getSharingData(token));
+    }
 
     /* 유저 - 회원 탈퇴
     @ApiOperation(value = "회원 탈퇴", notes = "사용자의 회원 탈퇴 및 정보 삭제")
@@ -50,4 +57,6 @@ public class MemberController {
         return ApiResponse.success(null);
     }
      */
+
+
 }
