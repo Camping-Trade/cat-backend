@@ -16,6 +16,7 @@ public class SharingResponseDto {
     private String updatedDate;
 
     private Long campingId;
+    private String campingName;
     private int pointToGet;
     private String type;
 }

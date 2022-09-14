@@ -29,6 +29,7 @@ public class SharingQuerydslRepository {
                 .select(Projections.fields(SharingResponseDto.class,
                         sharing.id.as("sharingId"),
                         sharing.campingId,
+                        sharing.campingName,
                         sharing.createdDate,
                         sharing.updatedDate,
                         sharing.type,

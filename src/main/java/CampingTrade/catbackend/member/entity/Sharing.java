@@ -35,6 +35,9 @@ public class Sharing {
     @Column(name = "camp_id")
     private Long campingId;
 
+    @Column(name = "camp_name")
+    private String campingName;
+
     @Column(name = "point_to_get")
     private int pointToGet;
 
