@@ -21,18 +21,18 @@
 <img src="https://img.shields.io/badge/amazonS3-569A31?style=flat-sqaure&logo=amazonS3&logoColor=white" height="25px"/></a>
 <img src="https://img.shields.io/badge/amazonEC2-FF9900?style=flat-sqaure&logo=amazonec2&logoColor=white" height="25px"/></a>
 <img src="https://img.shields.io/badge/docker-2496ED?style=flat-sqauree&logo=docker&logoColor=white" height="25px"/></a>
-### `로그인`
+### `LOGIN`
 - 소셜 로그인 (카카오)
 - Spring Security
 - JWT
 
-### `리뷰`
+### `REVIEW`
 - CRUD
 - 이미지 첨부(단일, 다중) 가능
 
-### `예약`
+### `RESERVATION`
 - 예약 정보 저장
 - 예약 내역 조회
 
-### `나눔`
+### `TRADING`
 - 나눔 내역 조회
